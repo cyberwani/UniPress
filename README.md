@@ -1,5 +1,5 @@
-UniPress
-========
+UniPress Alpha (not usable yet)
+=====================================
 
 WordPress Theme Framework used on my future themes, feel free to use as you see fit :)
 
