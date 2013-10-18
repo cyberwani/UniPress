@@ -107,7 +107,7 @@ jQuery(document).ready(function($) {
 	// Add confirmation dialog when deleting a sidebar
 	var sidebar_delete_submitted = false;
 	$('#section-sidebar_list .remove-button').click(function(e) {
-		if(!sidebar_delete_submitted && !confirm("Are you sure you want to delete this sidebar?")) 	{
+		if(!sidebar_delete_submitted && !confirm($(this).attr('data-confirm-message'))) 	{
 		    e.preventDefault();
 		} else {
 			sidebar_delete_submitted = true;

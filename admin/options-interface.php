@@ -377,7 +377,7 @@ function optionsframework_fields() {
 		// Create sidebar
 		case "sidebar_create":
 			$output .= '<input id="' . esc_attr( $value['id'] ) . '_text" class="of-input" name="' . esc_attr( $option_name . '[' . $value['id'] . '_text]' ) . '" type="text" value="' . esc_attr( $val ) . '" />';
-			$output .= '<input type="submit" class="button2" name="sidebar_create" value="Create" />';
+			$output .= '<input type="submit" class="button2" name="sidebar_create" value="' . __( 'Create', 'unipress' ) . '" />';
 			break;
 
 		// List sidebars
@@ -386,7 +386,7 @@ function optionsframework_fields() {
 			if( !empty( $settings['sidebar_list'] ) ) {
 				$output .= '<table class="wp-list-table widefat fixed">';
 				$output .= '<thead>';
-				$output .= '<tr><th>Name</th><th>CSS Class</th><th class="manage-column column-cb check-column">&nbsp;</th></tr>';
+				$output .= '<tr><th>' . __( 'Name', 'unipress' ) . '</th><th>' . __( 'CSS Class', 'unipress' ) . '</th><th class="manage-column column-cb check-column">&nbsp;</th></tr>';
 				$output .= '</thead>';
 				$output .= '<tbody>';
 				foreach ($settings['sidebar_list'] as $item) {
@@ -401,19 +401,19 @@ function optionsframework_fields() {
 							$id_hidden_field = '<input name="' . esc_attr( $option_name . '[sidebar_list][' . $i . '][id]' ) . '" type="hidden" value="' . esc_attr( $option ) . '" />';
 						}
 					}
-					$output .= '<tr class="' . ($i % 2 == 0 ? 'alternate' : '') . '"><td>' . $name_sidebar . $id_hidden_field . '</td><td>sidebar-' . $id_sidebar . $name_hidden_field . '</td><td><input class="remove-button" type="submit" name="sidebar_delete" value="' . $id_sidebar . '" /></td></tr>';
+					$output .= '<tr class="' . ($i % 2 == 0 ? 'alternate' : '') . '"><td>' . $name_sidebar . $id_hidden_field . '</td><td>sidebar-' . $id_sidebar . $name_hidden_field . '</td><td><input class="remove-button" data-confirm-message="' . __( 'Are you sure you want to delete this sidebar?', 'unipress' ) . '" type="submit" name="sidebar_delete" value="' . $id_sidebar . '" /></td></tr>';
 					$i++;
 				}
 				$output .= '</tbody>';
 				$output .= '</table>';
 			} else {
-				$output .= '<p>No custom sidebars have been created yet.</p>';
+				$output .= '<p>' . __( 'No custom sidebars have been created yet.', 'unipress' ) . '</p>';
 			}
 			break;
 
 		// Google Fonts update
 		case "fonts_update_google":
-			$output .= '<input type="submit" class="button2" name="fonts_update_google" value="Update" />';
+			$output .= '<input type="submit" class="button2" name="fonts_update_google" value="' . __( 'Update', 'unipress' ) . '" />';
 			break;
 
 		// Info
