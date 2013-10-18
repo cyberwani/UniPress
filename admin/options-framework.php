@@ -182,6 +182,8 @@ function optionsframework_setdefaults() {
  +
  *		return $menu;
  * });
+ *
+ * IMPORTANT: The 'menu_slug' must contain the 'unipress' string
  */
 
 function optionsframework_menu_settings() {
@@ -288,6 +290,10 @@ function optionsframework_load_styles() {
 function optionsframework_load_scripts( $hook ) {
 
 	$menu = optionsframework_menu_settings();
+
+	if ( strpos( $hook, 'unipress' ) === false ) {
+		return;
+	}
 
 	// Enqueue colorpicker scripts for versions below 3.5 for compatibility
 	if ( !wp_script_is( 'wp-color-picker', 'registered' ) ) {

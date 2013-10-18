@@ -102,8 +102,9 @@ function optionsframework_media_scripts( $hook ) {
 
 	$menu = optionsframework_menu_settings();
 
-	if ( 'appearance_page_' . $menu['menu_slug'] != $hook )
+	if ( strpos( $hook, 'unipress' ) === false ) {
 		return;
+	}
 
 	if ( function_exists( 'wp_enqueue_media' ) )
 		wp_enqueue_media();
