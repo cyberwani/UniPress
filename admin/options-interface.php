@@ -63,7 +63,7 @@ function optionsframework_fields() {
 		$output = '';
 
 		// Wrap all options
-		if ( ( $value['type'] != "heading" ) && ( $value['type'] != "info" ) ) {
+		if ( ( $value['type'] != "heading" ) && ( $value['type'] != "info" ) && ( $value['type'] != "toggle-start" ) && ( $value['type'] != "toggle-end" ) ) {
 
 			// Keep all ids lowercase with no spaces
 			$value['id'] = preg_replace('/[^a-zA-Z0-9._\-]/', '', strtolower( $value['id'] ) );
@@ -96,7 +96,7 @@ function optionsframework_fields() {
 		}
 
 		// If the option is already saved, ovveride $val
-		if ( ( $value['type'] != 'heading' ) && ( $value['type'] != 'info') ) {
+		if ( ( $value['type'] != 'heading' ) && ( $value['type'] != 'info') && ( $value['type'] != "toggle-start" ) && ( $value['type'] != "toggle-end" ) ) {
 			if ( isset( $settings[($value['id'])]) ) {
 				$val = $settings[($value['id'])];
 				// Striping slashes of non-array options
@@ -362,6 +362,18 @@ function optionsframework_fields() {
 			$output = '';
 			break;
 
+		// toggle start
+		case "toggle-start":
+			$output .= '<div class="toggle-container">' . "\n";
+			$output .= '<a class="toggle" href="javascript:void(0);"><span class="toggle-sign">+</span><span class="toggle-title">' . esc_html( $value['name'] ) . '</span></a>' . "\n";
+			$output .= '<div class="toggle-content" style="display: none;">' . "\n";
+			break;
+
+		// toggle end
+		case "toggle-end":
+			$output .= '</div></div>' . "\n";
+			break;
+
 		// Create sidebar
 		case "sidebar_create":
 			$output .= '<input id="' . esc_attr( $value['id'] ) . '_text" class="of-input" name="' . esc_attr( $option_name . '[' . $value['id'] . '_text]' ) . '" type="text" value="' . esc_attr( $val ) . '" />';
@@ -442,7 +454,7 @@ function optionsframework_fields() {
 			break;
 		}
 
-		if ( ( $value['type'] != "heading" ) && ( $value['type'] != "info" ) ) {
+		if ( ( $value['type'] != "heading" ) && ( $value['type'] != "info" ) && ( $value['type'] != "toggle-start" ) && ( $value['type'] != "toggle-end" ) ) {
 			$output .= '</div>';
 			if ( ( $value['type'] != "checkbox" ) && ( $value['type'] != "editor" ) ) {
 				$output .= '<div class="explain">' . wp_kses( $explain_value, $allowedtags ) . '</div>'."\n";

@@ -1,9 +1,24 @@
 <?php
+
+/**
+ * Font utils
+ *
+ * @package   UniPress
+ * @author    João Araújo <unispheredesign@gmail.com>
+ * @license   GPL-2.0+
+ * @link      http://themeforest.net/user/unisphere
+ * @copyright 2013 João Araújo
+ */
+
+// Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 /**
  * Gets the Google Web Fonts list.
  * If the $remote_update param is true, it forces the update of the font list
+ *
+ * @since 1.0.0
  */
-
 function optionsframework_get_google_fonts( $remote_update = false ) {
 
 	// Check if the Google web fonts list has already been imported

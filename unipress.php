@@ -31,10 +31,8 @@
  *
  */
 
-// If this file is called directly, abort.
-if ( ! defined( 'WPINC' ) ) {
-	die;
-}
+// Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
  * The UniPress class launches the framework.  It's the organizational structure behind the entire framework. 

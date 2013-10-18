@@ -88,6 +88,22 @@ jQuery(document).ready(function($) {
 	$('.of-radio-img-img').show();
 	$('.of-radio-img-radio').hide();
 
+	/* Toggle */
+	$(".toggle-container .toggle-content").hide(); //Hide (Collapse) the toggle containers on load
+	$(".toggle-container .toggle-sign").text('+'); //Add the + sign on load
+
+	$(".toggle-container .toggle").click(function(e) {
+		if(!jQuery(this).hasClass('selected')) {
+			$(this).addClass('selected');
+			$(this).find('.toggle-sign').text('-');
+			$(this).next(".toggle-content").slideToggle();
+		} else {
+			$(this).removeClass('selected');
+			$(this).find('.toggle-sign').text('+');
+			$(this).next(".toggle-content").slideToggle();
+		}
+	});
+
 	// Add confirmation dialog when deleting a sidebar
 	var sidebar_delete_submitted = false;
 	$('#section-sidebar_list .remove-button').click(function(e) {
