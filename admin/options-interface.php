@@ -95,7 +95,7 @@ function optionsframework_fields() {
 			$val = $value['std'];
 		}
 
-		// If the option is already saved, ovveride $val
+		// If the option is already saved, override $val
 		if ( ( $value['type'] != 'heading' ) && ( $value['type'] != 'info') && ( $value['type'] != "toggle-start" ) && ( $value['type'] != "toggle-end" ) ) {
 			if ( isset( $settings[($value['id'])]) ) {
 				$val = $settings[($value['id'])];
@@ -291,14 +291,6 @@ function optionsframework_fields() {
 		case 'background':
 
 			$background = $val;
-
-			// Background Color
-			$default_color = '';
-			if ( isset( $value['std']['color'] ) ) {
-				if ( $val !=  $value['std']['color'] )
-					$default_color = ' data-default-color="' .$value['std']['color'] . '" ';
-			}
-			$output .= '<input name="' . esc_attr( $option_name . '[' . $value['id'] . '][color]' ) . '" id="' . esc_attr( $value['id'] . '_color' ) . '" class="of-color of-background-color"  type="text" value="' . esc_attr( $background['color'] ) . '"' . $default_color .' />';
 
 			// Background Image
 			if (!isset($background['image'])) {

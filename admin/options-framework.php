@@ -30,7 +30,7 @@ add_action( 'init', 'optionsframework_rolescheck' );
 function optionsframework_rolescheck () {
 	if ( current_user_can( 'edit_theme_options' ) ) {
 		// If the user can edit theme options, let the fun begin!
-		add_action( 'admin_menu', 'optionsframework_add_page');
+		add_action( 'admin_menu', 'optionsframework_add_page' );
 		add_action( 'admin_init', 'optionsframework_init' );
 	}
 }
@@ -56,6 +56,7 @@ function optionsframework_load_sanitization() {
 function optionsframework_init() {
 
 	// Include the required files
+	require_once dirname( __FILE__ ) . '/options-unipress.php';
 	require_once dirname( __FILE__ ) . '/options-interface.php';
 	require_once dirname( __FILE__ ) . '/options-media-uploader.php';
 
@@ -192,70 +193,48 @@ function optionsframework_menu_settings() {
 		'page_title' => __( 'Theme Options', 'unipress' ),
 		'menu_title' => 'UniPress',
 		'capability' => 'edit_theme_options',
-		'menu_slug' => 'unipress-theme-options',
 		'callback' => 'optionsframework_page',
 		'icon' => trailingslashit( UNIPRESS_ADMIN_IMAGES ) . 'icon-menu.png'
-	);
-
-	$menu['sub-menus'] = array();
-
-	$menu['sub-menus']['unipress-theme-options'] = array(
-		'page_title' => __( 'Theme Options', 'unipress' ),
-		'menu_title' => __( 'Theme options', 'unipress' ),
-		'capability' => 'edit_theme_options',
-		'menu_slug' => 'unipress-theme-options',
-		'callback' => 'optionsframework_page'
 	);
 
 	// An hook into the menu is available
 	$menu = apply_filters( 'optionsframework_menu', $menu );
 
+	// Always use the 'optionsframework_page' callback even if the theme changes it
+	$menu['callback'] = 'optionsframework_page';
+
+	if( ! isset( $menu['sub-menus'] ) ) {
+		$menu['sub-menus'] = array();
+	}
+
 	// Only include font manager if the current theme supports it
 	if( current_theme_supports( 'unipress-fonts' ) ) {
-		$menu['sub-menus']['unipress-fonts-manager'] = array(
+		$menu['sub-menus'][] = array(
 			'page_title' => __( 'Fonts Manager', 'unipress' ),
 			'menu_title' => __( 'Fonts manager', 'unipress' ),
 			'capability' => 'edit_theme_options',
-			'menu_slug' => 'unipress-fonts-manager',
-			'callback' => 'optionsframework_page'
+			'menu_slug' => 'unipress-fonts-manager'
 		);
 	}
 	
-	$menu['sub-menus']['unipress-sidebars-manager'] = array(
+	$menu['sub-menus'][] = array(
 		'page_title' => __( 'Sidebars Manager', 'unipress' ),
 		'menu_title' => __( 'Sidebars manager', 'unipress' ),
 		'capability' => 'edit_theme_options',
-		'menu_slug' => 'unipress-sidebars-manager',
-		'callback' => 'optionsframework_page'
+		'menu_slug' => 'unipress-sidebars-manager'
 	);
+
+	// Set the parent menu slug equal to the first sub-menu
+	$menu['menu_slug'] = $menu['sub-menus'][0]['menu_slug'];
 
 	return $menu;
 }
 
 /* Adds main and sub pages to the WordPress admin panel. */
 
-function optionsframework_add_page() {
-
-	// Include the required files
-	require_once dirname( __FILE__ ) . '/options-unipress.php';
-
-	// Get options
-	$options =& _optionsframework_options(); 
+function optionsframework_add_page( ) {
 
 	$menu = optionsframework_menu_settings();
-
-	// See if the UniPress default options are the only ones available and change the parent menu slug.
-	if( isset( $options['unipress-options-only'] ) ) {
-		// Remove the "Theme Options" sub-menu
-		unset( $menu['sub-menus']['unipress-theme-options'] );
-
-		// By default set the "Sidebars Manager" as the parent menu slug
-		$menu['menu_slug'] = $menu['sub-menus']['unipress-sidebars-manager']['menu_slug'];
-
-		if( current_theme_supports( 'unipress-fonts' ) ) {
-			$menu['menu_slug'] = $menu['sub-menus']['unipress-fonts-manager']['menu_slug'];
-		}
-	}
 
 	// Parent menu
 	$of_page = add_menu_page( $menu['page_title'], $menu['menu_title'], $menu['capability'], $menu['menu_slug'], $menu['callback'], $menu['icon'] ); 
@@ -265,7 +244,7 @@ function optionsframework_add_page() {
 
 	foreach ($menu['sub-menus'] as $sub_menu) {
 		// Sub menu
-		$of_page = add_submenu_page( $menu['menu_slug'], $sub_menu['page_title'], $sub_menu['menu_title'], $sub_menu['capability'], $sub_menu['menu_slug'], $sub_menu['callback'] );
+		$of_page = add_submenu_page( $menu['menu_slug'], $sub_menu['page_title'], $sub_menu['menu_title'], $sub_menu['capability'], $sub_menu['menu_slug'], $menu['callback'] );
 
 		// Load the required CSS
 		add_action( 'admin_print_styles-' . $of_page, 'optionsframework_load_styles' );		
@@ -336,7 +315,11 @@ function optionsframework_get_page_title() {
  * Returns current location
  */
 function optionsframework_get_current_location() {
-	return $_GET['page'];
+	if( isset( $_GET['page'] ) ) {
+		return $_GET['page'];
+	} else {
+		return $_POST['location'];
+	}
 }
 
 /*
@@ -449,7 +432,7 @@ function optionsframework_validate( $input ) {
 
 	if ( isset( $_POST['reset'] ) ) {
 		add_settings_error( 'options-framework', 'restore_defaults', __( 'Default options restored.', 'unipress' ), 'updated fade' );
-		return of_get_default_values( $_POST['location'] );
+		return of_get_default_values( optionsframework_get_current_location() );
 	}
 
 	/*
@@ -473,7 +456,7 @@ function optionsframework_validate( $input ) {
 
 		$id = preg_replace( '/[^a-zA-Z0-9._\-]/', '', strtolower( $option['id'] ) );
 
-		if ( ! isset( $option['location'] ) || $option['location'] != $_POST['location'] ) {
+		if ( ! isset( $option['location'] ) || $option['location'] != optionsframework_get_current_location() ) {
 			// If the current location doesn't match the option, keep existing value
 			$clean[$id] = of_get_option( $id );
 		} else {
@@ -494,14 +477,19 @@ function optionsframework_validate( $input ) {
 				$clean['sidebar_list'] = $input['sidebar_list'];
 				
 				// Output an error in case the sidebar name is empty or already exists
-				if( isset( $_POST['sidebar_exists'] ) ) {
+				if ( isset( $_POST['sidebar_exists'] ) ) {
 					add_settings_error( 'options-framework', 'sidebar_exists', __( 'There\'s already a sidebar with that name or the field is empty.', 'unipress' ), 'error' );
 					remove_action( 'optionsframework_after_validate', 'optionsframework_save_options_notice' );
 				}
 			} else {
-				// For a value to be submitted to database it must pass through a sanitization filter
-				if ( has_filter( 'of_sanitize_' . $option['type'] ) ) {
-					$clean[$id] = apply_filters( 'of_sanitize_' . $option['type'], $input[$id], $option );
+				// Check if sanitization is disabled for this option (useful for Custom CSS and Custom Scripts fields)
+				if ( isset( $option['sanitize'] ) && $option['sanitize'] == false ) {
+					$clean[$id] = $input[$id];
+				} else {
+					// For a value to be submitted to database it must pass through a sanitization filter
+					if ( has_filter( 'of_sanitize_' . $option['type'] ) ) {
+						$clean[$id] = apply_filters( 'of_sanitize_' . $option['type'], $input[$id], $option );
+					}
 				}
 			}
 		}
@@ -611,12 +599,13 @@ function &_optionsframework_options() {
 		$options = apply_filters('of_options', $options);
 	}
 
+	$combined_options = array();
+
 	// Append the framework options
 	if( is_array( $options ) ) {
 		$combined_options = array_merge( $options, optionsframework_get_unipress_options() );
 	} else {
 		$combined_options = optionsframework_get_unipress_options();
-		$combined_options['unipress-options-only'] = true;
 	}
 
 	return $combined_options;

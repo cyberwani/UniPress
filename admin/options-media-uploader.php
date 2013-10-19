@@ -100,8 +100,6 @@ add_action( 'admin_enqueue_scripts', 'optionsframework_media_scripts' );
 
 function optionsframework_media_scripts( $hook ) {
 
-	$menu = optionsframework_menu_settings();
-
 	if ( strpos( $hook, 'unipress' ) === false ) {
 		return;
 	}
