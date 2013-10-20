@@ -16,7 +16,7 @@ function optionsframework_tabs() {
 		}
 
 		// Heading for Navigation
-		if ( $value['type'] == "heading" ) {
+		if ( $value['type'] == "heading" && ! empty( $value['name'] ) ) {
 			$counter++;
 			$class = '';
 			$class = ! empty( $value['id'] ) ? $value['id'] : $value['name'];
@@ -217,31 +217,71 @@ function optionsframework_fields() {
 		// Typography
 		case 'typography':
 
-			unset( $font_size, $font_style, $font_face, $font_color );
+			unset( $font_size, $font_lineheight, $font_style, $font_face, $font_uppercase, $font_color );
 
 			$typography_defaults = array(
 				'size' => '',
+				'lineheight' => '',
 				'face' => '',
 				'style' => '',
+				'uppercase' => '',
 				'color' => ''
 			);
 
 			$typography_stored = wp_parse_args( $val, $typography_defaults );
 
 			$typography_options = array(
-				'sizes' => of_recognized_font_sizes(),
+				'sizes' => isset( $value['size'] ) && $value['size'] ? of_recognized_font_sizes() : false,
+				'lineheights' => isset( $value['lineheight'] ) && $value['lineheight'] ? of_recognized_font_lineheights() : false,
 				'faces' => of_recognized_font_faces(),
-				'styles' => of_recognized_font_styles(),
-				'color' => true
+				'styles' => isset( $value['style'] ) && $value['style'] ? of_recognized_font_styles() : false,
+				'uppercase' => isset( $value['uppercase'] ) && $value['uppercase'] ? true : false,
+				'color' => isset( $value['color'] ) && $value['color'] ? true : false
 			);
 
 			if ( isset( $value['options'] ) ) {
 				$typography_options = wp_parse_args( $value['options'], $typography_options );
 			}
 
+			// Font Face
+			if ( $typography_options['faces'] ) {
+				if ( ! isset( $value['googlefonts'] ) ) {
+					$value['googlefonts'] = false;
+				}
+
+				$font_face = '<select class="of-typography of-typography-face" name="' . esc_attr( $option_name . '[' . $value['id'] . '][face]' ) . '" id="' . esc_attr( $value['id'] . '_face' ) . '">';
+
+				// Include Google Web Fonts
+				if ( true == $value['googlefonts'] ) {
+					$font_face .= '<optgroup label="' . __( 'Default font family stacks', 'unipress' ) . '">';
+				}
+
+				$faces = $typography_options['faces'];
+				$google_optgroup = false;
+				foreach ( $faces as $key => $face ) {
+					// Google Web Font faces start with "google:"
+					if ( true == $value['googlefonts'] && unipress_starts_with( $key, 'google:' ) && false == $google_optgroup ) {
+						$google_optgroup = true;
+						$font_face .= '</optgroup>';
+						$font_face .= '<optgroup label="' . __( 'Google web fonts', 'unipress' ) . '">';
+					}
+
+					// Don't display Google Web Fonts if disabled for this field
+					if ( ( false == $value['googlefonts'] && ! unipress_starts_with( $key, 'google:' ) ) || true == $value['googlefonts'] ) {
+						$font_face .= '<option value="' . esc_attr( $key ) . '" ' . selected( $typography_stored['face'], $key, false ) . '>' . esc_html( $face ) . '</option>';
+					}
+				}
+
+				// Close the Google Web Fonts optgroup
+				if ( true == $value['googlefonts'] ) {
+					$font_face .= '</optgroup>';
+				}
+				$font_face .= '</select>';
+			}
+
 			// Font Size
 			if ( $typography_options['sizes'] ) {
-				$font_size = '<select class="of-typography of-typography-size" name="' . esc_attr( $option_name . '[' . $value['id'] . '][size]' ) . '" id="' . esc_attr( $value['id'] . '_size' ) . '">';
+				$font_size = '<label class="typography-size">' . __( 'Size:', 'unipress' ) . '</label><select class="of-typography of-typography-size" name="' . esc_attr( $option_name . '[' . $value['id'] . '][size]' ) . '" id="' . esc_attr( $value['id'] . '_size' ) . '">';
 				$sizes = $typography_options['sizes'];
 				foreach ( $sizes as $i ) {
 					$size = $i . 'px';
@@ -250,19 +290,20 @@ function optionsframework_fields() {
 				$font_size .= '</select>';
 			}
 
-			// Font Face
-			if ( $typography_options['faces'] ) {
-				$font_face = '<select class="of-typography of-typography-face" name="' . esc_attr( $option_name . '[' . $value['id'] . '][face]' ) . '" id="' . esc_attr( $value['id'] . '_face' ) . '">';
-				$faces = $typography_options['faces'];
-				foreach ( $faces as $key => $face ) {
-					$font_face .= '<option value="' . esc_attr( $key ) . '" ' . selected( $typography_stored['face'], $key, false ) . '>' . esc_html( $face ) . '</option>';
+			// Font Line Heights
+			if ( $typography_options['lineheights'] ) {
+				$font_lineheight = '<label class="typography-lineheight">' . __( 'Line height:', 'unipress' ) . '</label><select class="of-typography of-typography-lineheight" name="' . esc_attr( $option_name . '[' . $value['id'] . '][lineheight]' ) . '" id="' . esc_attr( $value['id'] . '_lineheight' ) . '">';
+				$lineheights = $typography_options['lineheights'];
+				foreach ( $lineheights as $i ) {
+					$lineheight = $i . 'px';
+					$font_lineheight .= '<option value="' . esc_attr( $lineheight ) . '" ' . selected( $typography_stored['lineheight'], $lineheight, false ) . '>' . esc_html( $lineheight ) . '</option>';
 				}
-				$font_face .= '</select>';
+				$font_lineheight .= '</select>';
 			}
 
 			// Font Styles
 			if ( $typography_options['styles'] ) {
-				$font_style = '<select class="of-typography of-typography-style" name="'.$option_name.'['.$value['id'].'][style]" id="'. $value['id'].'_style">';
+				$font_style = '<label class="typography-style">' . __( 'Font style:', 'unipress' ) . '</label><select class="of-typography of-typography-style" name="'.$option_name.'['.$value['id'].'][style]" id="'. $value['id'].'_style">';
 				$styles = $typography_options['styles'];
 				foreach ( $styles as $key => $style ) {
 					$font_style .= '<option value="' . esc_attr( $key ) . '" ' . selected( $typography_stored['style'], $key, false ) . '>'. $style .'</option>';
@@ -280,8 +321,14 @@ function optionsframework_fields() {
 				$font_color = '<input name="' . esc_attr( $option_name . '[' . $value['id'] . '][color]' ) . '" id="' . esc_attr( $value['id'] . '_color' ) . '" class="of-color of-typography-color  type="text" value="' . esc_attr( $typography_stored['color'] ) . '"' . $default_color .' />';
 			}
 
+			// Font Uppercase
+			if ( $typography_options['uppercase'] ) {
+				$font_uppercase = '<label class="typography-uppercase">Uppercase:</label>';
+				$font_uppercase .= '<input id="' . esc_attr( $value['id'] . '_uppercase' ) . '" class="of-typography of-typography-uppercase" type="checkbox" name="' . esc_attr( $option_name . '[' . $value['id'] . '][uppercase]' ) . '" '. checked( $typography_stored['uppercase'], 1, false) .' />';
+			}
+
 			// Allow modification/injection of typography fields
-			$typography_fields = compact( 'font_size', 'font_face', 'font_style', 'font_color' );
+			$typography_fields = compact( 'font_face', 'font_size', 'font_lineheight', 'font_style', 'font_uppercase', 'font_color' );
 			$typography_fields = apply_filters( 'of_typography_fields', $typography_fields, $typography_stored, $option_name, $value );
 			$output .= implode( '', $typography_fields );
 

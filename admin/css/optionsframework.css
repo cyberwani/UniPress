@@ -67,32 +67,62 @@
 	float: left;
 	clear: both;
 }
-#optionsframework .section-typography .controls {
-	float:none;
-	width:auto;
-}
-#optionsframework .section-typography .explain {
-	float:none;
-	width:auto;
+#optionsframework .controls label.typography-size {
+	clear: left;
+	float: left;
+	margin-top: 8px;
+	margin-left: 65px;
 }
 #optionsframework .controls .of-typography-size {
 	width:80px;
+	margin-left:10px;
+	float:left;	
+}
+#optionsframework .controls label.typography-lineheight {
+	clear: left;
+	float: left;
+	margin-top: 8px;
+ 	margin-left: 28px;
+}
+#optionsframework .controls .of-typography-lineheight {
+	width:80px;
+	margin-left:10px;
 	float:left
 }
+#optionsframework .controls label.typography-style {
+	clear: left;
+	float: left;
+	margin-top: 8px;
+ 	margin-left: 36px;
+}
+#optionsframework .controls .of-typography-style {
+	width:150px;
+	margin-left:10px;
+	float:left
+}
+#optionsframework .controls label.typography-uppercase {
+	clear: left;
+	float: left;
+	margin-top: 8px;
+ 	margin-left: 30px;
+}
+#optionsframework .controls .of-typography-uppercase {
+	margin-left:10px;
+	margin-top: 5px;
+	float:left;
+	width: auto!important;
+}
+
+
+
+
 #optionsframework .controls .of-typography-unit {
 	width:50px;
 	margin-left:5px;
 	float:left
 }
 #optionsframework .controls .of-typography-face {
-	width:100px;
-	margin-left:5px;
-	float:left
-}
-#optionsframework .controls .of-typography-style {
-	width:80px;
-	margin-left:5px;
-	margin-right:5px;
+	width:250px;
 	float:left
 }
 #optionsframework .of-background-properties {
@@ -312,7 +342,6 @@ input[type="file"] {
 }
 
 /* Sidebars Manager */
-.optionsframework-unipress-sidebars-manager .nav-tab-wrapper a,
 .optionsframework-unipress-sidebars-manager #optionsframework-submit {
 	display: none; 
 }
@@ -350,10 +379,7 @@ input.remove-button {
 	outline: none; 
 }
 
-/* Sidebars Manager */
-.optionsframework-unipress-fonts-manager .nav-tab-wrapper a {
-	display: none; 
-}
+/* Fonts Manager */
 .section-fonts_update_google .controls { 
 	width: 16%!important; 
 	min-width: 100px!important; 

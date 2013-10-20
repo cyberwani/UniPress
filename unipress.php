@@ -164,6 +164,9 @@ final class UniPress {
 	 */
 	public function functions() {
 
+		// Load helper utility functions
+		require_once( trailingslashit( UNIPRESS_FUNCTIONS ) . 'helpers.php' );
+
 		// Load Google Web Fonts feature if supported
 		require_if_theme_supports( 'unipress-fonts', trailingslashit( UNIPRESS_FUNCTIONS ) . 'fonts.php' );
 

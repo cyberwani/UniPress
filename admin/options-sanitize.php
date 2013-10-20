@@ -167,10 +167,12 @@ add_filter( 'of_background_attachment', 'of_sanitize_background_attachment' );
 function of_sanitize_typography( $input, $option ) {
 
 	$output = wp_parse_args( $input, array(
-		'size'  => '',
-		'face'  => '',
-		'style' => '',
-		'color' => ''
+		'size'			=> '',
+		'lineheight'		=> '',
+		'face'			=> '',
+		'style'			=> '',
+		'uppercase'		=> '',
+		'color'			=> ''
 	) );
 
 	if ( isset( $option['options']['faces'] ) && isset( $input['face'] ) ) {
@@ -182,9 +184,11 @@ function of_sanitize_typography( $input, $option ) {
 		$output['face']  = apply_filters( 'of_font_face', $output['face'] );
 	}
 
-	$output['size']  = apply_filters( 'of_font_size', $output['size'] );
-	$output['style'] = apply_filters( 'of_font_style', $output['style'] );
-	$output['color'] = apply_filters( 'of_sanitize_color', $output['color'] );
+	$output['size']  		= apply_filters( 'of_font_size', $output['size'] );
+	$output['lineheight']  	= apply_filters( 'of_font_lineheight', $output['lineheight'] );
+	$output['style'] 		= apply_filters( 'of_font_style', $output['style'] );
+	$output['uppercase'] 	= apply_filters( 'of_sanitize_checkbox', $output['uppercase'] );
+	$output['color'] 		= apply_filters( 'of_sanitize_color', $output['color'] );
 	return $output;
 }
 add_filter( 'of_sanitize_typography', 'of_sanitize_typography', 10, 2 );
@@ -198,6 +202,17 @@ function of_sanitize_font_size( $value ) {
 	return apply_filters( 'of_default_font_size', $recognized );
 }
 add_filter( 'of_font_size', 'of_sanitize_font_size' );
+
+
+function of_sanitize_font_lineheight( $value ) {
+	$recognized = of_recognized_font_lineheights();
+	$value_check = preg_replace('/px/','', $value);
+	if ( in_array( (int) $value_check, $recognized ) ) {
+		return $value;
+	}
+	return apply_filters( 'of_default_font_lineheight', $recognized );
+}
+add_filter( 'of_font_lineheight', 'of_sanitize_font_lineheight' );
 
 
 function of_sanitize_font_style( $value ) {
@@ -297,8 +312,25 @@ function of_sanitize_hex( $hex, $default = '' ) {
  */
 
 function of_recognized_font_sizes() {
-	$sizes = range( 9, 71 );
+	$sizes = range( 8, 71 );
 	$sizes = apply_filters( 'of_recognized_font_sizes', $sizes );
+	$sizes = array_map( 'absint', $sizes );
+	return $sizes;
+}
+
+/**
+ * Get recognized font line heights.
+ *
+ * Returns an indexed array of all recognized font line heights.
+ * Values are integers and represent a range of sizes from
+ * smallest to largest.
+ *
+ * @return   array
+ */
+
+function of_recognized_font_lineheights() {
+	$sizes = range( 8, 71 );
+	$sizes = apply_filters( 'of_recognized_font_lineheights', $sizes );
 	$sizes = array_map( 'absint', $sizes );
 	return $sizes;
 }
@@ -315,15 +347,33 @@ function of_recognized_font_sizes() {
  */
 function of_recognized_font_faces() {
 	$default = array(
-		'arial'     => 'Arial',
-		'verdana'   => 'Verdana, Geneva',
-		'trebuchet' => 'Trebuchet',
-		'georgia'   => 'Georgia',
-		'times'     => 'Times New Roman',
-		'tahoma'    => 'Tahoma, Geneva',
-		'palatino'  => 'Palatino',
-		'helvetica' => 'Helvetica*'
+		'Arial, "Helvetica Neue", Helvetica, sans-serif' => 'Arial',
+		'Baskerville, "Baskerville Old Face", "Hoefler Text", Garamond, "Times New Roman", serif' => 'Baskerville',
+		'Georgia, Times, "Times New Roman", serif' => 'Georgia',
+		'"Helvetica Neue", Helvetica, Arial, sans-serif' => 'Helvetica',
+		'"Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Verdana, sans-serif' => 'Lucida Grande',
+		'Palatino, "Palatino Linotype", "Palatino LT STD", "Book Antiqua", Georgia, serif' => 'Palatino',
+		'Tahoma, Verdana, Segoe, sans-serif' => 'Tahoma',
+		'TimesNewRoman, "Times New Roman", Times, Baskerville, Georgia, serif' => 'Times New Roman',
+		'"Trebuchet MS", "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Tahoma, sans-serif' => 'Trebuchet MS',
+		'Verdana, Geneva, sans-serif' => 'Verdana'
 	);
+
+	// Load the Google Web Fonts if the theme supports it
+	if( current_theme_supports( 'unipress-fonts' ) ) {
+		$google_fonts = optionsframework_get_google_fonts();
+		foreach( $google_fonts as $google_font ) {
+			foreach( $google_font as $key => $option ) {
+				if( 'value' == $key ) {
+					$value = $option;
+				} else {
+					$text = $option;
+				}
+			}
+			$default[$value] = $text;
+		}
+	}
+
 	return apply_filters( 'of_recognized_font_faces', $default );
 }
 
@@ -339,10 +389,23 @@ function of_recognized_font_faces() {
  */
 function of_recognized_font_styles() {
 	$default = array(
-		'normal'      => __( 'Normal', 'unipress' ),
-		'italic'      => __( 'Italic', 'unipress' ),
-		'bold'        => __( 'Bold', 'unipress' ),
-		'bold italic' => __( 'Bold Italic', 'unipress' )
+		'100italic' => __( 'Ultra-Light 100 Italic', 'unipress' ),
+		'200' 		=> __( 'Light 200', 'unipress' ),
+		'200italic' => __( 'Light 200 Italic', 'unipress' ),
+		'300' 		=> __( 'Book 300', 'unipress' ),
+		'300italic' => __( 'Book 300 Italic', 'unipress' ),
+		'400' 		=> __( 'Normal 400', 'unipress' ),
+		'400italic' => __( 'Normal 400 Italic', 'unipress' ),
+		'500' 		=> __( 'Medium 500', 'unipress' ),
+		'500italic' => __( 'Medium 500 Italic', 'unipress' ),
+		'600' 		=> __( 'Semi-Bold 600', 'unipress' ),
+		'600italic' => __( 'Semi-Bold 600 Italic', 'unipress' ),
+		'700' 		=> __( 'Bold 700', 'unipress' ),
+		'700italic' => __( 'Bold 700 Italic', 'unipress' ),
+		'800' 		=> __( 'Extra-Bold 800', 'unipress' ),
+		'800italic' => __( 'Extra-Bold 800 Italic', 'unipress' ),
+		'900' 		=> __( 'Ultra-Bold 900', 'unipress' ),
+		'900italic' => __( 'Ultra-Bold 900 Italic', 'unipress' )
 	);
 	return apply_filters( 'of_recognized_font_styles', $default );
 }
