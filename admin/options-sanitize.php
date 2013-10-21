@@ -199,7 +199,7 @@ function of_sanitize_font_size( $value ) {
 	if ( in_array( (int) $value_check, $recognized ) ) {
 		return $value;
 	}
-	return apply_filters( 'of_default_font_size', $recognized );
+	return apply_filters( 'of_default_font_size', current( $recognized ) );
 }
 add_filter( 'of_font_size', 'of_sanitize_font_size' );
 
@@ -210,7 +210,7 @@ function of_sanitize_font_lineheight( $value ) {
 	if ( in_array( (int) $value_check, $recognized ) ) {
 		return $value;
 	}
-	return apply_filters( 'of_default_font_lineheight', $recognized );
+	return apply_filters( 'of_default_font_lineheight', current( $recognized ) );
 }
 add_filter( 'of_font_lineheight', 'of_sanitize_font_lineheight' );
 

@@ -224,6 +224,16 @@ function optionsframework_menu_settings() {
 		'menu_slug' => 'unipress-sidebars-manager'
 	);
 
+	// Only include import/export options if the current theme supports it
+	if( current_theme_supports( 'unipress-import-export' ) ) {
+		$menu['sub-menus'][] = array(
+			'page_title' => __( 'Import / Export', 'unipress' ),
+			'menu_title' => __( 'Import / Export', 'unipress' ),
+			'capability' => 'edit_theme_options',
+			'menu_slug' => 'unipress-import-export'
+		);
+	}
+
 	// Set the parent menu slug equal to the first sub-menu
 	$menu['menu_slug'] = $menu['sub-menus'][0]['menu_slug'];
 
@@ -433,6 +443,19 @@ function optionsframework_validate( $input ) {
 	if ( isset( $_POST['reset'] ) ) {
 		add_settings_error( 'options-framework', 'restore_defaults', __( 'Default options restored.', 'unipress' ), 'updated fade' );
 		return of_get_default_values( optionsframework_get_current_location() );
+	}
+
+	/*
+	 * Import settings
+	 */
+	if ( isset( $input['import_settings'] ) && $input['import_settings'] != '' ) {
+		$settings_to_import = base64_decode( $input['import_settings'] );
+		$settings_to_import = @unserialize( $settings_to_import );
+
+		if( $settings_to_import ) {
+			add_settings_error( 'options-framework', 'save_options', __( 'Options imported.', 'unipress' ), 'updated fade' );
+			return $settings_to_import;
+		}
 	}
 
 	/*

@@ -61,5 +61,28 @@ function optionsframework_get_unipress_options() {
 							'std' => '',
 							'location' => 'unipress-sidebars-manager' );
 
+	// Only include import/export options if the current theme supports it
+	if( current_theme_supports( 'unipress-import-export' ) ) {
+
+		// IMPORT/EXPORT -------------------------------------------------------------------
+		$options[] = array( 'name' => '',
+							'type' => 'heading',
+							'location' => 'unipress-import-export' );
+							
+			$options[] = array( 'name' => __( 'Import Settings', 'unipress' ),
+								'desc' => __( 'Paste an exported encoded field from another theme installation into this field in order to import the other theme installation settings.', 'unipress' ),
+								'id' => 'import_settings',
+								'std' => '',
+								'type' => 'textarea',
+								'location' => 'unipress-import-export' ); 
+
+			$options[] = array( 'name' => __( 'Export Settings', 'unipress' ),
+								'desc' => __( 'Copy this encoded field into the "Import Settings" field in another theme installation to import this installation settings.', 'unipress' ),
+								'id' => 'export_settings',
+								'std' => '',
+								'type' => 'textarea',
+								'location' => 'unipress-import-export' ); 
+	}
+
 	return $options;
 }

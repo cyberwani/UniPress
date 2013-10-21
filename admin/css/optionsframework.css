@@ -399,6 +399,11 @@ input.remove-button {
 	border: 1px solid #bbb;
 }
 
+/* Import / Export */
+.optionsframework-unipress-import-export #optionsframework-submit .button-secondary {
+	display: none; 
+}
+
 /* Toggles */
 .toggle-container { 
 	overflow: hidden;

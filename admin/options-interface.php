@@ -136,6 +136,12 @@ function optionsframework_fields() {
 			}
 
 			$val = stripslashes( $val );
+
+			// If it's the unipress default export settings field, then add the base64 encoded string as the value
+			if ( 'export_settings' == $value['id'] ) {
+				$val = base64_encode( serialize( $settings ) );
+			}
+
 			$output .= '<textarea id="' . esc_attr( $value['id'] ) . '" class="of-input" name="' . esc_attr( $option_name . '[' . $value['id'] . ']' ) . '" rows="' . $rows . '">' . esc_textarea( $val ) . '</textarea>';
 			break;
 
