@@ -77,6 +77,9 @@ function optionsframework_fields() {
 			if ( isset( $value['class'] ) ) {
 				$class .= ' ' . $value['class'];
 			}
+			if ( isset( $value['hsl'] ) && true == $value['hsl'] ) {
+				$class .= ' hsl';
+			}
 
 			$output .= '<div id="' . esc_attr( $id ) .'" class="' . esc_attr( $class ) . '">'."\n";
 			if ( isset( $value['name'] ) ) {
@@ -210,7 +213,16 @@ function optionsframework_fields() {
 				if ( $val !=  $value['std'] )
 					$default_color = ' data-default-color="' . $value['std'] . '" ';
 			}
-			$output .= '<input name="' . esc_attr( $option_name . '[' . $value['id'] . ']' ) . '" id="' . esc_attr( $value['id'] ) . '" class="of-color"  type="text" value="' . esc_attr( $val ) . '"' . $default_color .' />';
+			$class = '';
+			// Include "hsl" class if enabled
+			if ( isset( $value['hsl'] ) && true == $value['hsl'] ) {
+				$class = ' hsl';
+			}
+			$output .= '<input name="' . esc_attr( $option_name . '[' . $value['id'] . ']' ) . '" id="' . esc_attr( $value['id'] ) . '" class="of-color' . $class . '"  type="text" value="' . esc_attr( $val ) . '"' . $default_color .' />';
+			// Include "hsl" checkbox if enabled
+			if ( isset( $value['hsl'] ) && true == $value['hsl'] ) {
+				$output .= '<input type="checkbox" class="of-color-checkbox" name="' . esc_attr( $option_name . '[' . $value['id'] . '_enable_hsl]' ) . '" id="' . esc_attr( $value['id'] . '_enable_hsl' ) . '" checked="checked" />';
+			}
 
 			break;
 
@@ -496,6 +508,16 @@ function optionsframework_fields() {
 			$class = preg_replace('/[^a-zA-Z0-9._\-]/', '', strtolower($class) );
 			$output .= '<div id="options-group-' . $counter . '" class="group ' . $class . '">';
 			$output .= '<h3>' . esc_html( $value['name'] ) . '</h3>' . "\n";
+			
+			// If "hsl" is enabled for this option group then add the sliders
+			if ( isset( $value['hsl'] ) && true == $value['hsl'] ) {
+				$output .= '<div id="hsl-wrapper">';
+				$output .= '<span>H&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;S&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;L</span>';
+				$output .= '<div id="slider-h"></div>';
+				$output .= '<div id="slider-s"></div>';
+				$output .= '<div id="slider-l"></div>';
+				$output .= '</div>';
+			}
 			break;
 		}
 
