@@ -528,7 +528,7 @@ function optionsframework_validate( $input ) {
 	}
 
 	// Hook to run after validation
-	do_action( 'optionsframework_after_validate', $clean );
+	do_action( 'unipress_after_validate', $clean );
 
 	return $clean;
 }
@@ -541,7 +541,7 @@ function optionsframework_save_options_notice() {
 	add_settings_error( 'options-framework', 'save_options', __( 'Options saved.', 'unipress' ), 'updated fade' );
 }
 
-add_action( 'optionsframework_after_validate', 'optionsframework_save_options_notice' );
+add_action( 'unipress_after_validate', 'optionsframework_save_options_notice' );
 
 /**
  * Format Configuration Array.
