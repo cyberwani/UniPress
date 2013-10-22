@@ -41,25 +41,29 @@ function optionsframework_get_unipress_options() {
 								'location' => 'unipress-fonts-manager' );
 	}
 
-	// SIDEBAR MANAGER -------------------------------------------------------------------
-	$options[] = array( 'name' => '',
-						'type' => 'heading',
-						'location' => 'unipress-sidebars-manager' );
-							
-		$options[] = array( 'name' => __( 'Create new custom sidebar:', 'unipress' ),
-							'desc' => '',
-							'id' => 'sidebar_create',
-							'type' => 'sidebar_create',
-							'class' => 'mini',
-							'std' => '',
-							'location' => 'unipress-sidebars-manager' );
+	// Only include sidebar options if the current theme supports it
+	if( current_theme_supports( 'unipress-sidebars' ) ) {
 
-		$options[] = array( 'name' => __( 'Available custom sidebars:', 'unipress' ),
-							'desc' => '',
-							'id' => 'sidebar_list',
-							'type' => 'sidebar_list',
-							'std' => '',
+		// SIDEBAR MANAGER -------------------------------------------------------------------
+		$options[] = array( 'name' => '',
+							'type' => 'heading',
 							'location' => 'unipress-sidebars-manager' );
+								
+			$options[] = array( 'name' => __( 'Create new custom sidebar:', 'unipress' ),
+								'desc' => '',
+								'id' => 'sidebar_create',
+								'type' => 'sidebar_create',
+								'class' => 'mini',
+								'std' => '',
+								'location' => 'unipress-sidebars-manager' );
+
+			$options[] = array( 'name' => __( 'Available custom sidebars:', 'unipress' ),
+								'desc' => '',
+								'id' => 'sidebar_list',
+								'type' => 'sidebar_list',
+								'std' => '',
+								'location' => 'unipress-sidebars-manager' );
+	}
 
 	// Only include import/export options if the current theme supports it
 	if( current_theme_supports( 'unipress-import-export' ) ) {

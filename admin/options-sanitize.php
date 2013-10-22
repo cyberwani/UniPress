@@ -361,7 +361,7 @@ function of_recognized_font_faces() {
 
 	// Load the Google Web Fonts if the theme supports it
 	if( current_theme_supports( 'unipress-fonts' ) ) {
-		$google_fonts = optionsframework_get_google_fonts();
+		$google_fonts = unipress_get_google_fonts();
 		foreach( $google_fonts as $google_font ) {
 			foreach( $google_font as $key => $option ) {
 				if( 'value' == $key ) {

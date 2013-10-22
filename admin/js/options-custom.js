@@ -116,6 +116,7 @@ jQuery(document).ready(function($) {
 		}
 	});
 
+	// Init the jQuery UI sliders for the HSL (hue, saturation, lightness)
 	if( $("#slider-h").length > 0 ) {
 		$("#slider-h").slider({
 			orientation: "vertical",
@@ -175,6 +176,7 @@ jQuery(document).ready(function($) {
 		return [h, s, l];
 	}
 
+	// Converts an hex value to and hsl value
 	function hexToHsl(hex) {
 		var r = parseInt(hex.substr(1,2), 16);
 		var g = parseInt(hex.substr(3,2), 16);
@@ -230,6 +232,7 @@ jQuery(document).ready(function($) {
 		return '#' + componentToHex(parseInt(hsl[0])) + componentToHex(parseInt(hsl[1])) + componentToHex(parseInt(hsl[2]));
 	}
 
+	// Refreshes the color pickers color when the HSL sliders are changed
 	function refreshColors() {
 		$('.of-color.hsl').each(function() {
 			if( $('#'+$(this).attr('id')+'_enable_hsl').is(':checked') ) {
@@ -240,6 +243,7 @@ jQuery(document).ready(function($) {
 		});
 	}
 
+	// Transforms the original colors based on the HSL value of the sliders
 	function transformColor(orig_color) {
 		var orig_color_hsl = hexToHsl(orig_color);
 

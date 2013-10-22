@@ -60,22 +60,34 @@ final class UniPress {
 	private static $instance = null;
 
 	/**
+	 * The admin panel settings.
+	 *
+	 * @since    1.0.0
+	 *
+	 * @var      array
+	 */
+	private static $settings = null;
+
+	/**
 	 * Constructor method for the UniPress class.  This method adds other methods of the class to 
 	 * specific hooks within WordPress.  It controls the load order of the required files for running 
 	 * the framework.
 	 *
-	 * @since 1.0.0
+	 * @since	1.0.0
 	 */
 	private function __construct() {
 
 		// Define framework constants.
 		add_action( 'after_setup_theme', array( &$this, 'constants' ), 1 );
 
+		// Add theme features that are enabled by default.
+		add_action( 'after_setup_theme', array( &$this, 'default_features' ), 2 );
+
 		// Load the framework functions.
-		add_action( 'after_setup_theme', array( &$this, 'functions' ), 2 );
+		add_action( 'after_setup_theme', array( &$this, 'functions' ), 4 );
 
 		// Language functions and translations setup.
-		add_action( 'after_setup_theme', array( &$this, 'load_plugin_textdomain' ), 3 );
+		add_action( 'after_setup_theme', array( &$this, 'load_plugin_textdomain' ), 5 );
 	}
 
 	/**
@@ -97,7 +109,7 @@ final class UniPress {
 	/**
 	 * Defines the constants for use within the framework.  
 	 *
-	 * @since 1.0.0
+	 * @since	1.0.0
 	 */
 	public function constants() {
 
@@ -157,8 +169,24 @@ final class UniPress {
 	}
 
 	/**
+	 * Adds default theme features. The theme using UniPress can disable them if not needed.
+	 * This is to prevent features like Portfolio custom post type, Shortcodes or Sidebar manager
+	 * to become unavailable when user switches themes.
+	 *
+	 * @since	1.0.0
+	 */
+	public function default_features() {
+
+		// Adds default support for the Sidebar Manager admin panel
+		add_theme_support( 'unipress-sidebars' );
+
+		// Adds default support for the Portfolio custom post type
+		add_theme_support( 'unipress-post-type-portfolio' );
+	}
+
+	/**
 	 * Loads the framework functions.  Many of these functions are needed to properly run the 
-	 * framework.  Some components are only loaded if the theme supports them.
+	 * framework. Some components are only loaded if the theme supports them.
 	 *
 	 * @since    1.0.0
 	 */
@@ -172,6 +200,9 @@ final class UniPress {
 
 		// Load the admin panel
 		require_once( trailingslashit( UNIPRESS_ADMIN_DIR ) . 'options-framework.php' );
+
+		// Load the Portfolio custom post type (themes can disable it)
+		require_if_theme_supports( 'unipress-post-type-portfolio', trailingslashit( UNIPRESS_FUNCTIONS ) . 'post-type-portfolio.php' );
 	}
 
 	/**
@@ -181,6 +212,30 @@ final class UniPress {
 	 */
 	public function load_plugin_textdomain() {
 		// TODO
+	}
+
+	/**
+	 * Gets the admin panel stored settings
+	 *
+	 * @since    1.0.0
+	 */
+	public static function settings() {
+
+		if ( null == self::$settings ) {			
+			$optionsframework_settings = get_option( 'optionsframework' );
+
+			// Gets the unique option id
+			if ( isset( $optionsframework_settings['id'] ) ) {
+				$option_name = $optionsframework_settings['id'];
+			}
+			else {
+				$option_name = 'unipress';
+			};
+
+			self::$settings = get_option($option_name);
+		}
+
+		return self::$settings;
 	}
 }
 
@@ -197,7 +252,24 @@ final class UniPress {
  * @return 	object 	The instance of the UniPress class
  */
 function UniPress() {
-        return UniPress::instance();
+	return UniPress::instance();
+}
+
+/**
+ * The main function responsible for returning the UniPress admin panel stored settings.
+ *
+ * Use this function like you would a global variable, except without needing
+ * to declare the global.
+ *
+ * Example: <?php $settings = UniPressSettings(); ?>
+ *
+ * @since 	1.0.0
+ *
+ * @return 	object 	An array containing the admin panel settings
+ */
+function UniPressSettings() {
+	$unipress = UniPress();
+	return $unipress::settings();
 }
 
 // Start, hammer time!

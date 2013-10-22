@@ -65,7 +65,7 @@ function optionsframework_init() {
 	$optionsfile = locate_template( $location );
 
 	// Load settings
-	$optionsframework_settings = get_option('optionsframework' );
+	$optionsframework_settings = get_option( 'optionsframework' );
 
 	// Updates the unique option id in the database if it has changed
 	if ( function_exists( 'optionsframework_option_name' ) ) {
@@ -217,12 +217,15 @@ function optionsframework_menu_settings() {
 		);
 	}
 	
-	$menu['sub-menus'][] = array(
-		'page_title' => __( 'Sidebars Manager', 'unipress' ),
-		'menu_title' => __( 'Sidebars manager', 'unipress' ),
-		'capability' => 'edit_theme_options',
-		'menu_slug' => 'unipress-sidebars-manager'
-	);
+	// Only include sidebar manager if the current theme supports it
+	if( current_theme_supports( 'unipress-sidebars' ) ) {
+		$menu['sub-menus'][] = array(
+			'page_title' => __( 'Sidebars Manager', 'unipress' ),
+			'menu_title' => __( 'Sidebars manager', 'unipress' ),
+			'capability' => 'edit_theme_options',
+			'menu_slug' => 'unipress-sidebars-manager'
+		);
+	}
 
 	// Only include import/export options if the current theme supports it
 	if( current_theme_supports( 'unipress-import-export' ) ) {
@@ -235,7 +238,9 @@ function optionsframework_menu_settings() {
 	}
 
 	// Set the parent menu slug equal to the first sub-menu
-	$menu['menu_slug'] = $menu['sub-menus'][0]['menu_slug'];
+	if( isset( $menu['sub-menus'] ) && ! empty( $menu['sub-menus'] ) ) {
+		$menu['menu_slug'] = $menu['sub-menus'][0]['menu_slug'];
+	}
 
 	return $menu;
 }
@@ -246,22 +251,26 @@ function optionsframework_add_page( ) {
 
 	$menu = optionsframework_menu_settings();
 
-	// Parent menu
-	$of_page = add_menu_page( $menu['page_title'], $menu['menu_title'], $menu['capability'], $menu['menu_slug'], $menu['callback'], $menu['icon'] ); 
+	// Only build the menu if there are any sub-menus (themes can disable the UniPress defaults)
+	if( isset( $menu['sub-menus'] ) && ! empty( $menu['sub-menus'] ) ) {
 
-	// Load the required CSS
-	add_action( 'admin_print_styles-' . $of_page, 'optionsframework_load_styles' );
-
-	foreach ($menu['sub-menus'] as $sub_menu) {
-		// Sub menu
-		$of_page = add_submenu_page( $menu['menu_slug'], $sub_menu['page_title'], $sub_menu['menu_title'], $sub_menu['capability'], $sub_menu['menu_slug'], $menu['callback'] );
+		// Parent menu
+		$of_page = add_menu_page( $menu['page_title'], $menu['menu_title'], $menu['capability'], $menu['menu_slug'], $menu['callback'], $menu['icon'] ); 
 
 		// Load the required CSS
-		add_action( 'admin_print_styles-' . $of_page, 'optionsframework_load_styles' );		
-	}
+		add_action( 'admin_print_styles-' . $of_page, 'optionsframework_load_styles' );
 
-	// Load the required javascript
-	add_action( 'admin_enqueue_scripts', 'optionsframework_load_scripts' );
+		foreach ($menu['sub-menus'] as $sub_menu) {
+			// Sub menu
+			$of_page = add_submenu_page( $menu['menu_slug'], $sub_menu['page_title'], $sub_menu['menu_title'], $sub_menu['capability'], $sub_menu['menu_slug'], $menu['callback'] );
+
+			// Load the required CSS
+			add_action( 'admin_print_styles-' . $of_page, 'optionsframework_load_styles' );		
+		}
+
+		// Load the required javascript
+		add_action( 'admin_enqueue_scripts', 'optionsframework_load_scripts' );
+	}
 }
 
 /* Loads the CSS */
@@ -429,7 +438,7 @@ function optionsframework_validate( $input ) {
 	 * Update Google Web Fonts from the remote list
 	 */
 	if( isset( $_POST['fonts_update_google'] ) ) {
-		optionsframework_get_google_fonts(true);
+		unipress_get_google_fonts(true);
 	}
 
 	/*

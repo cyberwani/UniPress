@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  *
  * @since 1.0.0
  */
-function optionsframework_get_google_fonts( $remote_update = false ) {
+function unipress_get_google_fonts( $remote_update = false ) {
 
 	// Check if the Google web fonts list has already been imported
 	if( false === ( $fonts = get_option('unisphere_google_fonts') ) || $remote_update ) {
