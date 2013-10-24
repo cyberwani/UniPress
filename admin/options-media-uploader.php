@@ -100,7 +100,7 @@ add_action( 'admin_enqueue_scripts', 'optionsframework_media_scripts' );
 
 function optionsframework_media_scripts( $hook ) {
 
-	if ( strpos( $hook, 'unipress' ) === false ) {
+	if ( strpos( $hook, 'unipress' ) === false && strpos( $hook, 'post.php' ) === false ) {
 		return;
 	}
 

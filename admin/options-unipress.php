@@ -1,11 +1,21 @@
 <?php 
 /**
- * These are the options related to the Fonts Manager and Sidebars Manager.
- * They are not filterable and are always added by the framework.
- *
- * @since 1.0.0
+ * @package   UniPress
+ * @author    João Araújo <unispheredesign@gmail.com>
+ * @license   GPL-2.0+
+ * @link      http://themeforest.net/user/unisphere
+ * @copyright 2013 João Araújo
  */
 
+// Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) exit;
+
+/**
+ * These are the options regarding the Fonts Manager, Sidebars Manager and Import/Export.
+ * They are always added by the framework but themes can disable them.
+ *
+ * @since     1.0.0
+ */
 function optionsframework_get_unipress_options() {
 
 	$options = array();

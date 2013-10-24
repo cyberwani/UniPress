@@ -4,14 +4,20 @@
 	max-width: 764px;
 	margin-bottom: 0 !important;
 }
+#optionsframework-metabox { 
+	padding-top: 0!important;
+}
 #optionsframework {
 	position: relative;
 	z-index: 0;
 	max-width: 780px;
 	background: #fff;
+	border-radius: 0;
+	border-top: 0;
+	border-color: #ccc;
 }
 #optionsframework h3 {
-	cursor: default;
+	display: none;
 }
 #optionsframework p {
 	margin-bottom:0;
@@ -19,15 +25,17 @@
 	line-height: 1.4em;
 }
 #optionsframework .section {
-	padding: 10px 10px 0;
+	padding: 20px 20px;
+	border-bottom: 1px solid #ccc;
 }
 #optionsframework .group {
-	padding-bottom: 40px;
+	padding-bottom: 0;
 }
 #optionsframework .section .heading {
 	padding: 10px 0;
-	margin: 0 0 15px;
-	border-bottom: 1px solid #dfdfdf;
+	font-size: 13px; padding: 0; 
+	margin: 0 0 8px;
+	border-bottom-width: 0;
 }
 #optionsframework .section .controls {
 	float: left;
@@ -36,17 +44,20 @@
 	padding-right: 2%;
 }
 #optionsframework .section .explain {
+	margin-top: 7px;
 	max-width: 38%;
 	float: left;
 	font-size: 12px;
 	line-height: 16px;
-	color: #777;
+	color: #888;
+	font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
 }
 #optionsframework .section-checkbox .controls {
 	width: 98%;
 }
 #optionsframework .section-checkbox .explain {
 	max-width: 94%;
+	margin-top: 1px;
 }
 #optionsframework .of-input {
 	width: 100%;
@@ -112,10 +123,6 @@
 	float:left;
 	width: auto!important;
 }
-
-
-
-
 #optionsframework .controls .of-typography-unit {
 	width:50px;
 	margin-left:5px;
@@ -268,12 +275,8 @@
 	clear: both;
 }
 
+/* OptionsFramework Tabs */
 
-
-
-
-
-/* UniPress overrides */
 h2.nav-tab-wrapper, h3.nav-tab-wrapper {
 	max-width: 782px;
 	padding-right: 0;
@@ -287,57 +290,28 @@ h2 .nav-tab-active {
 	color: #D54E21;
 	background-color: #fff;
 }
-#optionsframework-metabox { 
-	padding-top: 0!important;
-}
-#optionsframework { 
-	border-radius: 0;
-	border-top: 0;
-	border-color: #ccc;
-}
-#optionsframework h3 {
-	display: none;
-}
-#optionsframework .group {
-	padding-bottom: 0;
-}
-#optionsframework .section {
-	padding: 20px 20px;
-	border-bottom: 1px solid #ccc;
-}
-#optionsframework .section .heading {
-	font-size: 13px; padding: 0; 
-	margin: 0 0 8px;
-	border-bottom-width: 0;
-}
-#optionsframework .section .explain { 
-	font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
-	font-size: 12px; 
-	color: #888;
-	margin-top: 7px;
-}
 
 /* Input fields */
 
-textarea,
-input[type="text"],
-input[type="password"],
-input[type="file"],
-select { 
+#optionsframework textarea,
+#optionsframework input[type="text"],
+#optionsframework input[type="password"],
+#optionsframework input[type="file"],
+#optionsframework select { 
 	background-color: #f9f9f9!important; 
 	color: #666; 
 	border: 3px solid #e0e0e0!important;
 }
-textarea:focus,
-input[type="text"]:focus,
-input[type="password"]:focus,
-select:focus { 
+#optionsframework textarea:focus,
+#optionsframework input[type="text"]:focus,
+#optionsframework input[type="password"]:focus,
+#optionsframework select:focus { 
 	background-color: #fff!important;
 }
-textarea,
-input[type="text"],
-input[type="password"],
-input[type="file"] { 
+#optionsframework textarea,
+#optionsframework input[type="text"],
+#optionsframework input[type="password"],
+#optionsframework input[type="file"] { 
 	padding: 5px 5px 4px!important;
 }
 
@@ -536,13 +510,53 @@ input.remove-button {
 	margin-bottom: 20px; 
 }
 /* jQuery UI Slider (here to maintain compatibility and to not override the WP color picker) */
-#hsl-wrapper .ui-slider { position: relative; text-align: left; }
-#hsl-wrapper .ui-slider .ui-slider-handle { position: absolute; z-index: 2; width: 15px; height: 15px; cursor: pointer; background-color: #ddd; border: 1px solid #aaa; border-radius: 4px; }
-#hsl-wrapper .ui-slider .ui-slider-range { position: absolute; z-index: 1; font-size: .7em; display: block; border: 0; background-position: 0 0; }
-#hsl-wrapper .ui-slider-vertical { width: .8em; height: 300px; border-radius: 4px; }
-#hsl-wrapper .ui-slider-vertical .ui-slider-handle { left: -.3em; margin-left: 0; margin-bottom: -.6em; }
-#hsl-wrapper .ui-slider-vertical .ui-slider-range { left: 0; width: 100%; }
-#hsl-wrapper .ui-slider-vertical .ui-slider-range-min { bottom: 0; }
-#hsl-wrapper .ui-slider-vertical .ui-slider-range-max { top: 0; }
-#hsl-wrapper .ui-widget-content { border: 1px solid #aaa; background-color: #fff; }
-#hsl-wrapper .ui-widget-header { border: 1px solid #aaa; background-color: #ccc; }
+#hsl-wrapper .ui-slider { 
+	position: relative; 
+	text-align: left; 
+}
+#hsl-wrapper .ui-slider .ui-slider-handle { 
+	position: absolute; 
+	z-index: 2; 
+	width: 15px; 
+	height: 15px; 
+	cursor: pointer; 
+	background-color: #ddd; 
+	border: 1px solid #aaa; 
+	border-radius: 4px; 
+}
+#hsl-wrapper .ui-slider .ui-slider-range { 
+	position: absolute; 
+	z-index: 1; 
+	font-size: .7em; 
+	display: block; 
+	border: 0; 
+	background-position: 0 0; 
+}
+#hsl-wrapper .ui-slider-vertical { 
+	width: .8em; 
+	height: 300px; 
+	border-radius: 4px; 
+}
+#hsl-wrapper .ui-slider-vertical .ui-slider-handle { 
+	left: -.3em; 
+	margin-left: 0; 
+	margin-bottom: -.6em; 
+}
+#hsl-wrapper .ui-slider-vertical .ui-slider-range { 
+	left: 0; 
+	width: 100%; 
+}
+#hsl-wrapper .ui-slider-vertical .ui-slider-range-min { 
+	bottom: 0; 
+}
+#hsl-wrapper .ui-slider-vertical .ui-slider-range-max { 
+	top: 0; 
+}
+#hsl-wrapper .ui-widget-content { 
+	border: 1px solid #aaa; 
+	background-color: #fff; 
+}
+#hsl-wrapper .ui-widget-header { 
+	border: 1px solid #aaa; 
+	background-color: #ccc; 
+}

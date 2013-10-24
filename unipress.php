@@ -177,7 +177,7 @@ final class UniPress {
 	 */
 	public function default_features() {
 
-		// Adds default support for the Sidebar Manager admin panel
+		// Adds default support for the custom sidebars (admin panel and meta box)
 		add_theme_support( 'unipress-sidebars' );
 
 		// Adds default support for the Portfolio custom post type
@@ -203,6 +203,9 @@ final class UniPress {
 
 		// Load the Portfolio custom post type (themes can disable it)
 		require_if_theme_supports( 'unipress-post-type-portfolio', trailingslashit( UNIPRESS_FUNCTIONS ) . 'post-type-portfolio.php' );
+
+		// Load meta boxes (custom fields)
+		require_once( trailingslashit( UNIPRESS_FUNCTIONS ) . 'custom-fields.php' );
 	}
 
 	/**

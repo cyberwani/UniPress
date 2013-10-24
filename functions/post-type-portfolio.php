@@ -9,6 +9,9 @@
  * @copyright 2013 João Araújo
  */
 
+// Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 /**
  * Register the "portfolio_cpt" custom post type and "portolio_category" taxonomy
  *
@@ -65,7 +68,7 @@ function unipress_post_type_portfolio_register() {
 					);
 
 	function unipress_portfolio_categories_permalink_structure( $post_link, $post, $leavename, $sample ) {
-		if ( false !== strpos( $post_link, '%portfolio_category%' ) && ! is_admin() ) {
+		if ( false !== strpos( $post_link, '%portfolio_category%' ) ) {
 			$portfolio_category_type_term = get_the_terms( $post->ID, 'portfolio_category' );
 			$post_link = str_replace( '%portfolio_category%', array_pop( $portfolio_category_type_term )->slug, $post_link );
 		}

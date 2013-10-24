@@ -1,0 +1,282 @@
+/* Custom Fields Admin Styles */
+
+#custom-fields-form-wrap {
+	position: relative;
+	z-index: 0;
+	background: #fff;
+}
+#custom-fields-form-wrap p {
+	margin-bottom:0;
+	padding-bottom:0;
+	line-height: 20px;
+}
+#custom-fields-form-wrap .section {
+	border-top: 1px solid #dfdfdf; 
+	padding: 15px; 
+	margin: 0; 
+	background-color: #fff;
+}
+#custom-fields-form-wrap .section:first-child { 
+	border-top: 0; 
+}
+#custom-fields-form-wrap .group {
+	padding-bottom: 0;
+}
+#custom-fields-form-wrap .section .heading {
+	font-size: 13px; 
+	padding: 0; 
+	margin: 0 0 8px 0;
+}
+#custom-fields-form-wrap .section .controls {
+	min-width: 393px;
+	width: 34%;
+	padding-right: 2%;
+}
+#custom-fields-form-wrap .section .explain {
+	clear: left;
+	font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+	margin-top: 7px;
+	max-width: 100%;
+	font-size: 12px;
+	line-height: 16px;
+	color: #888;
+}
+#custom-fields-form-wrap .section-checkbox .controls,
+#custom-fields-form-wrap .section-info .controls {
+	width: 98%;
+}
+#custom-fields-form-wrap .section-checkbox .explain,
+#custom-fields-form-wrap .section-info .explain {
+	max-width:94%;
+}
+#custom-fields-form-wrap .section-checkbox .explain {
+	margin-top: 1px;
+}
+#custom-fields-form-wrap .of-input {
+	width: 100%;
+}
+#custom-fields-form-wrap .controls select {
+	height: 27px; 
+	padding-top: 4px;
+}
+#custom-fields-form-wrap .controls select, #custom-fields-form-wrap .controls textarea {
+	margin-bottom: 10px;
+	width: 100%;
+}
+#custom-fields-form-wrap .section-radio label, #custom-fields-form-wrap .section-multicheck label {
+	float: left;
+	max-width: 90%;
+	line-height: 16px;
+	margin-bottom: 5px;
+}
+#custom-fields-form-wrap input.checkbox, #custom-fields-form-wrap input.of-radio {
+	width: 30px;
+	margin-top: 2px;
+	float: left;
+	clear: both;
+}
+#custom-fields-form-wrap .of-background-properties {
+	clear:both;
+	margin-top: 18px;
+}
+#custom-fields-form-wrap .controls .of-background-repeat {
+	width:125px;
+	margin-right:5px;
+	float:left
+}
+#custom-fields-form-wrap .controls .of-background-position {
+	width:125px;
+	margin-right:5px;
+	float:left
+}
+#custom-fields-form-wrap .controls .of-background-attachment {
+	width:125px;
+	margin-right:5px;
+	float:left
+}
+#custom-fields-form-wrap .section-background .wp-picker-container {
+	margin-bottom:10px;
+}
+#custom-fields-form-wrap .hide {
+	display:none;
+}
+#custom-fields-form-wrap .of-option-image {
+	max-width:340px;
+	margin:3px 0 18px 0;
+}
+#custom-fields-form-wrap .mini .controls select, #custom-fields-form-wrap .section .mini .controls {
+	width: 140px;
+}
+#custom-fields-form-wrap .medium .controls select, #custom-fields-form-wrap .section .medium .controls {
+	width: 240px;
+}
+#custom-fields-form-wrap .mini .controls input, #custom-fields-form-wrap .mini .controls {
+	min-width:140px;
+	width: 140px;
+}
+#custom-fields-form-wrap .mini .explain {
+	max-width:74%;
+}
+#custom-fields-form-wrap .small .controls select, #custom-fields-form-wrap .section .small .controls {
+	width: 240px;
+}
+#custom-fields-form-wrap .small .controls input, #custom-fields-form-wrap .small .controls {
+	min-width:240px;
+	width: 240px;
+}
+#custom-fields-form-wrap .small .explain {
+	max-width:74%;
+}
+
+/* Image Uploader */
+
+#custom-fields-form-wrap .controls input.upload {
+	width:80%;
+}
+#custom-fields-form-wrap .controls input.upload_button {
+	float:right;
+	border-color:#BBBBBB;
+	cursor:pointer;
+}
+#custom-fields-form-wrap .controls input.upload_button:hover {
+	border-color:#666666;
+	color:#000;
+}
+#custom-fields-form-wrap .screenshot {
+	float:left;
+	margin-left:1px;
+	position:relative;
+	width:344px;
+	margin-top:3px;
+}
+#custom-fields-form-wrap .screenshot img {
+	background:#FAFAFA;
+	border-color:#ccc #eee #eee #ccc;
+	border-style:solid;
+	border-width:1px;
+	float:left;
+	max-width:334px;
+	padding:4px;
+	margin-bottom:10px;
+}
+#custom-fields-form-wrap .screenshot .remove-image {
+	background:url("../images/ico-delete.png") no-repeat;
+	border:medium none;
+	bottom:4px;
+	display:block;
+	float:left;
+	height:16px;
+	padding:0;
+	position:absolute;
+	left:-4px;
+	text-indent:-9999px;
+	width:16px;
+}
+#custom-fields-form-wrap .screenshot .no_image .file_link {
+	margin-left: 20px;
+}
+#custom-fields-form-wrap .screenshot .no_image .remove-button {
+	bottom: 0;
+}
+#custom-fields-form-wrap .reset-button {
+	float:left;
+	cursor:pointer;
+}
+
+/* Input fields */
+
+#custom-fields-form-wrap textarea,
+#custom-fields-form-wrap input[type="text"],
+#custom-fields-form-wrap input[type="password"],
+#custom-fields-form-wrap input[type="file"],
+#custom-fields-form-wrap select { 
+	background-color: #f9f9f9!important; 
+	color: #666; 
+	border: 3px solid #e0e0e0!important;
+}
+#custom-fields-form-wrap textarea:focus,
+#custom-fields-form-wrap input[type="text"]:focus,
+#custom-fields-form-wrap input[type="password"]:focus,
+#custom-fields-form-wrap select:focus { 
+	background-color: #fff!important;
+}
+#custom-fields-form-wrap textarea,
+#custom-fields-form-wrap input[type="text"],
+#custom-fields-form-wrap input[type="password"],
+#custom-fields-form-wrap input[type="file"] { 
+	padding: 5px 5px 4px!important;
+}
+
+/* Toggles */
+
+.toggle-container { 
+	overflow: hidden;
+}
+.toggle-container .toggle { 
+	line-height: 34px; 
+	padding: 0 5px; 
+	position: relative; 
+	display: block; 
+	text-decoration: none; 
+	border-bottom: 1px solid #e0e0e0; 
+	background: #fcfcfc; 
+	outline: none; 
+	background-color: #f7f7f7;
+}
+.toggle-container .toggle.selected span { 
+	color: #d54e21; 
+}
+.toggle-container .toggle:active,
+.toggle-container .toggle:focus { 
+	color: #21759B; 
+}
+.toggle-container .toggle .toggle-sign { 
+	position: absolute; 
+	top: 10px; 
+	left: 10px; 
+	font-size: 14px; 
+	line-height: 14px; 
+	margin: 0 5px 0 0; 
+	padding: 0 2px 0 2px; 
+	width: 11px; 
+	text-align: center; 
+	font-weight: bold; 
+}
+.toggle-container .toggle .toggle-title { 
+	font-size: 12px;
+	line-height: 34px;
+	margin-left: 25px;
+}
+.toggle-container .toggle span { 
+	display: inline-block;
+}
+.toggle-container .toggle-content { 
+	padding: 0;
+}
+#custom-fields-form-wrap .toggle-content { 
+	border-bottom: 1px solid #e0e0e0;
+}
+
+/* Sortable multi-checkbox fields */
+
+.sort-children li:hover { 
+	background-color: #d54e21; 
+	color: #fff; 
+	cursor: move;
+	border-radius: 3px; 
+}
+.sort-children label { 
+	cursor: move;
+}
+.section-portfolio_cat .checkbox,
+.section-blog_cat .checkbox,
+.section-slider_cat .checkbox { 
+	margin-right: -5px; 
+}
+
+/* Sidebar select dropdowns */
+
+.section-sidebar select { 
+	width: auto!important;
+	margin-left: 7px; 
+}

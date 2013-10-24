@@ -276,9 +276,9 @@ function optionsframework_add_page( ) {
 /* Loads the CSS */
 
 function optionsframework_load_styles() {
-	wp_enqueue_style( 'optionsframework', trailingslashit( UNIPRESS_ADMIN_URI ).'css/optionsframework.css' );
-	if ( !wp_style_is( 'wp-color-picker','registered' ) ) {
-		wp_register_style( 'wp-color-picker', trailingslashit( UNIPRESS_ADMIN_URI ).'css/color-picker.min.css' );
+	wp_enqueue_style( 'unipress-optionsframework', trailingslashit( UNIPRESS_ADMIN_URI ) . 'css/optionsframework.css' );
+	if ( ! wp_style_is( 'wp-color-picker','registered' ) ) {
+		wp_register_style( 'wp-color-picker', trailingslashit( UNIPRESS_ADMIN_URI ) . 'css/color-picker.min.css' );
 	}
 	wp_enqueue_style( 'wp-color-picker' );
 }
@@ -294,7 +294,7 @@ function optionsframework_load_scripts( $hook ) {
 	}
 
 	// Enqueue colorpicker scripts for versions below 3.5 for compatibility
-	if ( !wp_script_is( 'wp-color-picker', 'registered' ) ) {
+	if ( ! wp_script_is( 'wp-color-picker', 'registered' ) ) {
 		wp_register_script( 'iris', trailingslashit( UNIPRESS_ADMIN_URI ) . 'js/iris.min.js', array( 'jquery-ui-draggable', 'jquery-ui-slider', 'jquery-touch-punch' ), false, 1 );
 		wp_register_script( 'wp-color-picker', trailingslashit( UNIPRESS_ADMIN_URI ) . 'js/color-picker.min.js', array( 'jquery', 'iris' ) );
 		$colorpicker_l10n = array(
@@ -306,7 +306,7 @@ function optionsframework_load_scripts( $hook ) {
 	}
 
 	// Enqueue custom option panel JS
-	wp_enqueue_script( 'options-custom', trailingslashit( UNIPRESS_ADMIN_URI ) . 'js/options-custom.js', array( 'jquery','wp-color-picker' ) );
+	wp_enqueue_script( 'unipress-options-custom', trailingslashit( UNIPRESS_ADMIN_URI ) . 'js/options-custom.js', array( 'jquery', 'wp-color-picker' ) );
 
 	// Inline scripts from options-interface.php
 	add_action( 'admin_head', 'of_admin_head' );
